@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deposit - Fundra Bank</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/logo.png" alt="Fundra Bank Logo">
+    </div>
+  </header>
+  <main class="container">
+    <h1>Deposit</h1>
+    <div class="image-container">
+      <img src="images/deposit.jpg" alt="Deposit">
+    </div>
+    <form action="{% url 'submit_deposit' %}" method="post">
+      {% csrf_token %}
+      <label for="deposit-amount">Amount to Deposit:</label>
+      <input type="number" id="deposit-amount" name="deposit-amount" required>
+      <button type="submit">Deposit</button>
+    </form>
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    {% if success %}
+        <p style="color: green;">{{ success }}</p>
+    {% endif %}
+  </main>
+  <footer>
+    <p>&copy; 2024 Fundra Bank. All rights reserved.</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,182 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Register</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("{% static 'images/Background.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            width: 100%;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar .navbar-brand {
+            color: hotpink;
+            font-weight: bold;
+        }
+        .navbar .nav-link {
+            color: hotpink !important;
+            transition: color 0.3s;
+        }
+        .navbar .nav-link:hover {
+            color: #ff1493 !important;
+        }
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        .navbar-toggler-icon {
+            background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba%28255, 255, 255, 0.5%29" stroke-width="2" linecap="round" linejoin="round" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
+        }
+        .jumbotron {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.8), rgba(255, 105, 180, 0.8));
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1.5s ease-in-out;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 100px; /* To push the form below the navbar */
+            text-align: center;
+            color: white;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .form-group .tooltip-text {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: white;
+        }
+        .btn-primary {
+            background-color: white;
+            color: hotpink;
+            border: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #ff69b4;
+            color: white;
+            transform: scale(1.05);
+        }
+        .form-control {
+            border-radius: 30px;
+            padding: 10px 20px;
+        }
+        .form-control:focus {
+            border-color: hotpink;
+            box-shadow: 0 0 5px hotpink;
+        }
+        .text-secondary {
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">Fundra</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Careers</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container d-flex flex-column align-items-center">
+    <div class="jumbotron">
+        <h3 class="mb-4">Create an Account</h3>
+        <form id="registerForm" method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <div class="form-group position-relative">
+                <label for="username">Username</label>
+                <input type="text" name="username" class="form-control" id="username" placeholder="Enter username" required>
+                <span class="tooltip-text" data-toggle="tooltip" data-placement="top" title="Choose a unique username">
+                    <i class="fas fa-info-circle"></i>
+                </span>
+                <div class="invalid-feedback">
+                    Please enter your username.
+                </div>
+            </div>
+            <div class="form-group position-relative">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="Enter email" required>
+                <span class="tooltip-text" data-toggle="tooltip" data-placement="top" title="Your email address">
+                    <i class="fas fa-info-circle"></i>
+                </span>
+                <div class="invalid-feedback">
+                    Please enter a valid email address.
+                </div>
+            </div>
+            <div class="form-group position-relative">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Enter password" required>
+                <span class="tooltip-text" data-toggle="tooltip" data-placement="top" title="Choose a strong password">
+                    <i class="fas fa-info-circle"></i>
+                </span>
+                <div class="invalid-feedback">
+                    Please enter your password.
+                </div>
+            </div>
+            <div class="form-group position-relative">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" name="confirm_password" class="form-control" id="confirmPassword" placeholder="Confirm password" required>
+                <span class="tooltip-text" data-toggle="tooltip" data-placement="top" title="Re-enter your password">
+                    <i class="fas fa-info-circle"></i>
+                </span>
+                <div class="invalid-feedback">
+                    Please confirm your password.
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <div class="text-center mt-3">
+                <a href="#" class="text-secondary">Already have an account? Login</a>
+            </div>
+        </form>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+</body>
+</html>

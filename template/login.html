@@ -1,0 +1,221 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Login</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("{% static 'images/Background.jpg' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            width: 100%;
+            padding: 10px 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar .navbar-brand {
+            color: hotpink;
+            font-weight: bold;
+        }
+        .navbar .nav-link {
+            color: hotpink !important;
+            transition: color 0.3s;
+        }
+        .navbar .nav-link:hover {
+            color: #ff1493 !important;
+        }
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        .navbar-toggler-icon {
+            background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba%28255, 255, 255, 0.5%29" stroke-width="2" linecap="round" linejoin="round" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
+        }
+        .jumbotron {
+            background: linear-gradient(135deg, rgba(255, 20, 147, 0.8), rgba(255, 105, 180, 0.8));
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1.5s ease-in-out;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 100px; /* To push the form below the navbar */
+            text-align: center;
+            color: white;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .info-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .info-section:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+        }
+        .info-section h5 {
+            font-size: 1.8rem;
+            color: hotpink;
+        }
+        .info-section p {
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .info-section .btn {
+            background-color: hotpink;
+            color: white;
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .info-section .btn:hover {
+            background-color: #ff1493;
+            transform: scale(1.05);
+        }
+        .info-section .circle-image {
+            width: 150px;
+            height: 150px;
+            background: url('https://source.unsplash.com/800x800/?finance');
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .form-group .tooltip-text {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            color: white;
+        }
+        .btn-primary {
+            background-color: white;
+            color: hotpink;
+            border: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #ff69b4;
+            color: white;
+            transform: scale(1.05);
+        }
+        .form-control {
+            border-radius: 30px;
+            padding: 10px 20px;
+        }
+        .form-control:focus {
+            border-color: hotpink;
+            box-shadow: 0 0 5px hotpink;
+        }
+        .text-secondary {
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#">Fundra</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Careers</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container d-flex flex-column align-items-center">
+    <div class="jumbotron">
+        <h3 class="mb-4">Welcome to Our Bank</h3>
+        <form id="loginForm" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group position-relative">
+                <label for="username">Username</label>
+                <input type="text" name="username" class="form-control" id="username" placeholder="Enter username" required>
+                <span class="tooltip-text" data-toggle="tooltip" data-placement="top" title="Your unique bank username">
+                    <i class="fas fa-info-circle"></i>
+                </span>
+                <div class="invalid-feedback">
+                    Please enter your username.
+                </div>
+            </div>
+            <div class="form-group position-relative">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Enter password" required>
+                <span class="tooltip-text" data-toggle="tooltip" data-placement="top" title="Your secure bank password">
+                    <i class="fas fa-info-circle"></i>
+                </span>
+                <div class="invalid-feedback">
+                    Please enter your password.
+                </div>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">Remember Me</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+            <div class="text-center mt-3">
+                <a href="#" class="text-secondary">Forgot Password?</a>
+            </div>
+        </form>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        
+    </div>
+
+    <div class="info-section">
+        <div class="circle-image"></div>
+        <h5>About Us</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque arcu nec metus efficitur, nec ultrices ligula pellentesque.</p>
+        <button class="btn">Explore</button>
+    </div>
+    <div class="info-section">
+        <div class="circle-image"></div>
+        <h5>Our Services</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque arcu nec metus efficitur, nec ultrices ligula pellentesque.</p>
+        <button class="btn">Explore</button>
+    </div>
+    <div class="info-section">
+        <div class="circle-image"></div>
+        <h5>Customer Support</h5>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque arcu nec metus efficitur, nec ultrices ligula pellentesque.</p>
+        <button class="btn">Contact us</button>
+    </div>

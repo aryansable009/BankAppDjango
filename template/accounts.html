@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Page</title>
+    <link rel="stylesheet" href= "{% static 'css/dash1.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Fundra Dashboard</h1>
+            <nav>
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="{% url 'deposit' %}">Deposit</a></li>
+                    <li><a href="{% url 'withdraw' %}">Withdraw</a></li>
+                    <li><a href="{% url 'transfer' %}">Account Transfer</a></li>
+                    <li><a href="">Profile</a></li>
+                    <li><a href="">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="intro">
+            <div class="container">
+                <h2>Welcome to Your Dashboard</h2>
+                <p>Here you can manage your accounts, view recent transactions, and update your profile.</p>
+            </div>
+        </section>
+        <section class="dashboard-overview">
+            <div class="container">
+                <h2>Dashboard Overview</h2>
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <h3>Account Balance</h3>
+                        <p>{{Request_Account.AC_balance}}</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Pending Deposits</h3>
+                        <p>$1,200.00</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Pending Withdrawals</h3>
+                        <p>$500.00</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>Recent Transactions</h3>
+                        <p>5 Transactions</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="charts">
+            <div class="container">
+                <h2>Financial Charts</h2>
+                <div class="chart" id="chart1">
+                    <!-- Placeholder for Chart 1 -->
+                    <h3>Monthly Deposits</h3>
+                    <p>Chart 1 will be displayed here.</p>
+                </div>
+                <div class="chart" id="chart2">
+                    <!-- Placeholder for Chart 2 -->
+                    <h3>Monthly Withdrawals</h3>
+                    <p>Chart 2 will be displayed here.</p>
+                </div>
+            </div>
+        </section>
+        <section class="transaction-history">
+            <div class="container">
+                <h2>Transaction History</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Account</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for account_transaction in account_transactions%}
+                        <tr>
+                            <td>{{account_transaction.TC_date}}</td>
+                            <td>{{account_transaction.TC_type}}</td>
+                            {% if account_transaction.TC_type == 'transfer' %}
+                                {% if account_transaction.TC_sender_account == Request_Account %}
+                                    <td style="color: red;">-{{account_transaction.TC_amount}}</td>
+                                    <td>{{account_transaction.TC_receiver_account.AC_AccoutNumber}}</td>
+                                {% else %}
+                                    <td style="color: green;">+{{account_transaction.TC_amount}}</td>
+                                    <td>{{account_transaction.TC_sender_account.AC_AccoutNumber}}</td>
+                                {% endif %}
+                            {% else %}
+                                    {%if account_transaction.TC_type == 'deposit'%}
+                                        <td style="color: green;">+{{account_transaction.TC_amount}}</td>
+                                    {% else %}
+                                        <td style="color: red;">-{{account_transaction.TC_amount}}</td>
+                                    {% endif %}
+                                    <td>N/A</td>
+
+                            {% endif %}
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section class="profile-settings">
+            <div class="container">
+                <h2>Profile Settings</h2>
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" value="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" value="johndoe@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="button">Update Profile</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="newsletter">
+            <div class="container">
+                <h2>Subscribe to Our Newsletter</h2>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="button">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="contact-us">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="button">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 Banking Site. All rights reserved.</p>
+            <ul>
+                <li><a href="">Privacy Policy</a></li>
+                <li><a href="">Terms of Service</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
